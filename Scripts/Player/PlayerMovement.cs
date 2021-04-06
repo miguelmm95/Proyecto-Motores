@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     public float turnSpeed = 20f;
     public float speed = 5f;
 
+    public WeaponController weapon;
+
     Vector3 m_Movement;
     Quaternion m_Rotation;
     Rigidbody m_Rigidbody;
@@ -26,7 +28,19 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            weapon.isShooting = true;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            weapon.isShooting = false;
+        }
+    }
+
     void FixedUpdate()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -34,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
 
         Move(horizontal, vertical);
         Turn();
+
         //m_Movement.Set(horizontal, 0f, vertical);
         //m_Movement.Normalize();
 
