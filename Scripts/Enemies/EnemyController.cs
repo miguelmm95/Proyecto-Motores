@@ -11,8 +11,8 @@ public class EnemyController : MonoBehaviour
     public int health;
     public Slider m_Slider;
     public Image m_FillImage;
-    public Color m_FullHEalthColor = Color.green;
-    public Color m_ZeroHealthColor = Color.magenta;
+    public Color m_FullHealthColor = Color.green;
+    public Color m_ZeroHealthColor = Color.red;
 
 
     void Awake()
@@ -46,6 +46,6 @@ public class EnemyController : MonoBehaviour
     private void SetHealthUI()
     {
         m_Slider.value = m_CurrHealth;
-        m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHEalthColor, m_CurrHealth / health);
+        m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHealthColor, m_CurrHealth / health);
     }
 }
