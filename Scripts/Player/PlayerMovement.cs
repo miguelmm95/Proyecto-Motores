@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public WeaponController weapon;
 
     Vector3 m_Movement;
+    Animator m_Animator;
     Quaternion m_Rotation;
     Rigidbody m_Rigidbody;
     int floorMask;
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+        m_Animator = GetComponent<Animator>();
         floorMask = LayerMask.GetMask("Floor");
 
     }
@@ -49,12 +51,7 @@ public class PlayerMovement : MonoBehaviour
         Move(horizontal, vertical);
         Turn();
 
-        //m_Movement.Set(horizontal, 0f, vertical);
-        //m_Movement.Normalize();
-
-        //bool horizontalInput = !Mathf.Approximately(horizontal, 0f);
-        //bool verticalInput = !Mathf.Approximately(vertical, 0f);
-        //bool isWalking = horizontalInput || verticalInput;
+        
     }
 
     void Move(float h, float v)
@@ -62,6 +59,11 @@ public class PlayerMovement : MonoBehaviour
         m_Movement.Set(h, 0f, v);
 
         m_Movement = m_Movement.normalized * speed * Time.fixedDeltaTime;
+
+        bool horizontalInput = !Mathf.Approximately(h, 0f);
+        bool verticalInput = !Mathf.Approximately(v, 0f);
+        bool isWalking = horizontalInput || verticalInput;
+        m_Animator.SetBool("IsWalking", isWalking);
 
         m_Rigidbody.MovePosition(transform.position + m_Movement);
     }
