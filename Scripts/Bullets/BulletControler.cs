@@ -17,7 +17,7 @@ public class BulletControler : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    // Update is called once per frame
+
     void FixedUpdate()
     {
         transform.Translate(Vector3.forward * speed * Time.fixedDeltaTime);

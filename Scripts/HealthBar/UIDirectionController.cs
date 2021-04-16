@@ -9,13 +9,11 @@ public class UIDirectionController : MonoBehaviour
 
     private Quaternion m_RelativeRotation;
 
-    // Start is called before the first frame update
     void Start()
     {
         m_RelativeRotation = transform.parent.localRotation;
     }
 
-    // Update is called once per frame
     void Update()
     {
         //transform.LookAt(camara);
