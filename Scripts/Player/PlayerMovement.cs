@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         bool horizontalInput = !Mathf.Approximately(h, 0f);
         bool verticalInput = !Mathf.Approximately(v, 0f);
         bool isWalking = horizontalInput || verticalInput;
-        m_Animator.SetBool("IsWalking", isWalking);
+        m_Animator.SetBool("isWalking", isWalking);
 
         m_Rigidbody.MovePosition(transform.position + m_Movement);
     }
