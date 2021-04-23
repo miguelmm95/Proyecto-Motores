@@ -16,7 +16,6 @@ public class UIDirectionController : MonoBehaviour
 
     void Update()
     {
-        //transform.LookAt(camara);
 
         if (m_UseRelativeRotation)
         {

@@ -8,6 +8,13 @@ public class BulletControler : MonoBehaviour
     public int damage;
     public float lifeTime;
 
+    public Rigidbody rb;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     void Update()
     {
         lifeTime -= Time.deltaTime;
@@ -20,7 +27,8 @@ public class BulletControler : MonoBehaviour
 
     void FixedUpdate()
     {
-        transform.Translate(Vector3.forward * speed * Time.fixedDeltaTime);
+        rb.AddForce(transform.forward * speed);
+        //transform.Translate(Vector3.forward * speed * Time.fixedDeltaTime);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -30,6 +38,11 @@ public class BulletControler : MonoBehaviour
         if(collision.gameObject.tag == "Enemy")
         {
             collision.gameObject.GetComponent<EnemyController>().getDamage(damage);
+            Destroy(gameObject);
+        }
+
+        if(collision.gameObject.tag == "Wall")
+        {
             Destroy(gameObject);
         }
     }
