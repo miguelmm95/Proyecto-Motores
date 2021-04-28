@@ -16,10 +16,10 @@ public class UIDirectionController : MonoBehaviour
 
     void Update()
     {
-
         if (m_UseRelativeRotation)
         {
             transform.rotation = m_RelativeRotation;
+            transform.LookAt(transform.position + camara.transform.rotation * Vector3.back, camara.transform.rotation * Vector3.down);
         }
     }
 }
