@@ -2,21 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
+    NavMeshAgent nav;
     private Rigidbody rb;
     private float m_CurrHealth;
-
+    
+    public float areaDetection = 10f;
     public int health;
     public Slider m_Slider;
     public Image m_FillImage;
     public Color m_FullHealthColor = Color.green;
     public Color m_ZeroHealthColor = Color.red;
+    public PlayerMovement m_Player;
 
 
     void Awake()
     {
+        nav = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -24,11 +29,11 @@ public class EnemyController : MonoBehaviour
     {
         m_Slider.maxValue = health;
         m_CurrHealth = health;
+        m_Player = GameObject.FindObjectOfType<PlayerMovement>();
 
         SetHealthUI();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(m_CurrHealth <= 0)
@@ -36,6 +41,23 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    void FixedUpdate()
+    {
+        float m_Distance = Vector3.Distance(m_Player.transform.position,this.transform.position);
+
+        if (m_Distance < areaDetection)
+        {
+            Debug.Log("Voy a por el jugador");
+        }
+    }
+
+    void GoToPlayer()
+    {
+        
+    }
+
+
 
     public void getDamage(int damage)
     {
