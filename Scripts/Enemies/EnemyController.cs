@@ -9,8 +9,9 @@ public class EnemyController : MonoBehaviour
     NavMeshAgent nav;
     private Rigidbody rb;
     private float m_CurrHealth;
-    
-    public float areaDetection = 10f;
+    private float areaDetection = 5;
+    private float shootDistance = 10;
+
     public int health;
     public Slider m_Slider;
     public Image m_FillImage;
@@ -46,17 +47,22 @@ public class EnemyController : MonoBehaviour
     {
         float m_Distance = Vector3.Distance(m_Player.transform.position,this.transform.position);
 
-        if (m_Distance < areaDetection)
+        if (nav.remainingDistance <= shootDistance)
         {
-            Debug.Log("Voy a por el jugador");
+            Debug.Log(nav.remainingDistance);
+            Vector3 direction = (m_Player.transform.position - transform.position);
+            Quaternion myDirection = Quaternion.LookRotation(direction.normalized);
+            Quaternion rotation = Quaternion.RotateTowards(transform.rotation, myDirection, 1.0f);
+
+            if (Quaternion.Angle(rotation,myDirection) < 2.0)
+            {
+                Debug.Log("PUM");
+            }
+
+            nav.SetDestination(m_Player.transform.position);
+            transform.rotation = rotation;
         }
     }
-
-    void GoToPlayer()
-    {
-        
-    }
-
 
 
     public void getDamage(int damage)
