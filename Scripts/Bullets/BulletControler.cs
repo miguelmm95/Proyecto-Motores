@@ -41,6 +41,12 @@ public class BulletControler : MonoBehaviour
             Destroy(gameObject);
         }
 
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<PlayerHealth>().getDamage(damage);
+            Destroy(gameObject);
+        }
+
         if(collision.gameObject.tag == "Wall")
         {
             Destroy(gameObject);

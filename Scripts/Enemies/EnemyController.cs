@@ -9,16 +9,15 @@ public class EnemyController : MonoBehaviour
     NavMeshAgent nav;
     private Rigidbody rb;
     private float m_CurrHealth;
-    private float areaDetection = 5;
     private float shootDistance = 10;
 
+    public WeaponController weapon;
+    public float areaDetection = 5;
     public int health;
     public Slider m_Slider;
     public Image m_FillImage;
     public Color m_FullHealthColor = Color.green;
     public Color m_ZeroHealthColor = Color.red;
-    public PlayerMovement m_Player;
-
 
     void Awake()
     {
@@ -30,9 +29,15 @@ public class EnemyController : MonoBehaviour
     {
         m_Slider.maxValue = health;
         m_CurrHealth = health;
-        m_Player = GameObject.FindObjectOfType<PlayerMovement>();
 
         SetHealthUI();
+    }
+
+    GameObject FindPlayer()
+    {
+        GameObject m_Player = GameObject.FindGameObjectWithTag("Player");
+
+        return m_Player;
     }
 
     void Update()
@@ -45,23 +50,40 @@ public class EnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float m_Distance = Vector3.Distance(m_Player.transform.position,this.transform.position);
+        GameObject player = FindPlayer();
+        float m_Distance = Vector3.Distance(player.transform.position,this.transform.position);
 
-        if (nav.remainingDistance <= shootDistance)
+        if (m_Distance <= areaDetection)
         {
-            Debug.Log(nav.remainingDistance);
-            Vector3 direction = (m_Player.transform.position - transform.position);
-            Quaternion myDirection = Quaternion.LookRotation(direction.normalized);
-            Quaternion rotation = Quaternion.RotateTowards(transform.rotation, myDirection, 1.0f);
-
-            if (Quaternion.Angle(rotation,myDirection) < 2.0)
+            if (nav.remainingDistance <= shootDistance)
             {
-                Debug.Log("PUM");
-            }
+                Vector3 direction = (player.transform.position - transform.position);
+                Quaternion myDirection = Quaternion.LookRotation(direction.normalized);
+                Quaternion rotation = Quaternion.RotateTowards(transform.rotation, myDirection, 2.0f);
 
-            nav.SetDestination(m_Player.transform.position);
-            transform.rotation = rotation;
+
+                if (Quaternion.Angle(rotation, myDirection) < 15.0f)
+                {
+                    weapon.isShooting = true;
+                }
+                else
+                {
+                    weapon.isShooting = false;
+                }
+
+                nav.SetDestination(player.transform.position);
+                transform.rotation = rotation;
+            }
+            else
+            {
+                weapon.isShooting = false;
+            }
         }
+        else
+        {
+            weapon.isShooting = false;
+        }
+
     }
 
 
